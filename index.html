@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
     <title>Registration Form</title>
     <script>
         function saveUser() {
@@ -21,8 +21,23 @@
             userTable.innerHTML = "<tr><th>Name</th><th>Email</th><th>Phone</th><th>Action</th></tr>";
             for (var i = 0; i < users.length; i++) {
                 var user = users[i];
-                var row = "<tr><td>" + user.name + "</td><td>" + user.email + "</td><td>" + user.phone + "</td><td><button onclick='deleteUser(" + i + ")'>Delete</button></td></tr>";
+                var row = "<tr><td>" + user.name + "</td><td>" + user.email + "</td><td>" + user.phone +  "</td><td><button onclick='editUser(" + i + ")'>Edit</button>\n<button onclick='deleteUser(" + i + ")'>Delete</button></td></tr>";
                 userTable.innerHTML += row;
+            }
+        }
+
+        function editUser(index) {
+            var users = JSON.parse(localStorage.getItem("users")) || [];
+            var user = users[index];
+            var newName = prompt("Enter new name", user.name);
+            var newEmail = prompt("Enter new email", user.email);
+            var newPhone = prompt("Enter new phone", user.phone);
+            if (newName !== null && newEmail !== null && newPhone !== null) {
+                user.name = newName;
+                user.email = newEmail;
+                user.phone = newPhone;
+                localStorage.setItem("users", JSON.stringify(users));
+                showUsers();
             }
         }
 
@@ -62,62 +77,3 @@
 </body>
 
 </html>
- 56  
-style.css
-@@ -0,0 +1,56 @@
-body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-}
-
-h1 {
-	text-align: center;
-	margin: 30px 0;
-}
-
-form {
-	width: 50%;
-	margin: 0 auto;
-}
-
-label {
-	display: inline-block;
-	width: 100px;
-	text-align: right;
-	margin-right: 10px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="tel"] {
-	padding: 5px;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-}
-
-input[type="button"] {
-	background-color: #4CAF50;
-	color: #fff;
-	padding: 8px 16px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-table {
-	width: 80%;
-	margin: 0 auto;
-	border-collapse: collapse;
-}
-
-th,
-td {
-	padding: 10px;
-	text-align: center;
-	border: 1px solid #ddd;
-}
-
-th {
-	background-color: #f2f2f2;
-}
